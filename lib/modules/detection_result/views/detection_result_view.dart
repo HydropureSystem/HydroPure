@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../app/theme/app_colors.dart';
-import '../../../widgets/bottom_nav.dart';
+
 import '../controllers/detection_result_controller.dart';
 import '../widgets/recommendation_card.dart';
 

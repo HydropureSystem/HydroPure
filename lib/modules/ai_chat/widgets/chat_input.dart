@@ -22,6 +22,7 @@ class ChatInput extends GetView<AiChatController> {
         boxShadow: [
           BoxShadow(
             blurRadius: 12,
+            // ignore: deprecated_member_use
             color: Colors.black.withOpacity(0.08),
           )
         ],

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hydropure/widgets/plant_card.dart';
 import '../../../app/routes/app_routes.dart';
 
-import '../../../../widgets/ai_recommendation_card.dart';
+
 import '../../../../widgets/bottom_nav.dart';
 import '../../../../widgets/market_price_item.dart';
-import '../../../../widgets/plant_card.dart';
+
 import '../../../app/theme/app_colors.dart';
 import '../controllers/home_controller.dart';
 import '../../../widgets/profile_button.dart';
@@ -14,6 +15,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
+  
+  // ignore: strict_top_level_inference
+  get plant => null;
 
   @override
   Widget build(BuildContext context) {
@@ -116,22 +120,22 @@ class HomeView extends GetView<HomeController> {
 
               SizedBox(height: 20),
 
-              // SizedBox(
-              //   height: 290,
-              //   child: ListView.builder(
-              //     scrollDirection: Axis.horizontal,
-              //     itemCount: controller.plants.length,
-              //     itemBuilder: (context, index) {
-              //       // final plant = controller.plants[index];
+              SizedBox(
+                height: 290,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: controller.plant.length,
+                  itemBuilder: (context, index) {
+                    // final plant = controller.plants[index];
 
-              //       return PlantCard(
-              //         image: plant['image']!,
-              //         title: plant['name']!,
-              //         days: plant['days']!,
-              //       );
-              //     },
-              //   ),
-              // ),
+                    return PlantCard(
+                      image: plant['image']!,
+                      title: plant['name']!,
+                      days: plant['days']!,
+                    );
+                  },
+                ),
+              ),
               SizedBox(height: 30),
 
               /// MARKET PRICE
@@ -203,9 +207,8 @@ class HomeView extends GetView<HomeController> {
                               return Column(
                                 children: docs.map((doc) {
 
-                                  final data =
-                                      doc.data()
-                                          as Map<String, dynamic>;
+                                  // ignore: unnecessary_cast
+                                  final data = doc.data() as Map<String, dynamic>;
 
                                   /// NAMA SAYUR
                                   final String title =

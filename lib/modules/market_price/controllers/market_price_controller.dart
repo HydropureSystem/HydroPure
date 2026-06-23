@@ -20,16 +20,19 @@ class MarketPriceController extends GetxController {
   }
 
   void fetchMarketPrices() {
+  // ignore: avoid_print
   print("DEBUG: Mencoba fetch dari database 'hydropure'...");
   _firestore
       .collection('realtime_market') // GANTI INI sesuai yang ada di foto Console-mu!
       .snapshots()
       .listen((snapshot) {
+    // ignore: avoid_print
     print("DEBUG: Berhasil stream! Jumlah dokumen: ${snapshot.docs.length}");
     vegetableList.value = snapshot.docs.map((doc) => doc.data()).toList();
     isLoading(false);
   }, onError: (e) {
-    print("DEBUG: Error saat stream: $e");
+  // ignore: avoid_print
+  print("DEBUG: Error saat stream: $e");
   });
 }
   }

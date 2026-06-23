@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
+
+
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'package:google_sign_in_platform_interface/google_sign_in_platform_interface.dart';
-import 'package:google_sign_in_web/google_sign_in_web.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthService {
@@ -52,6 +52,7 @@ class AuthService {
         password: password,
       );
     } catch (e) {
+      // ignore: avoid_print
       print('error login: $e');
       return Future.error(e);
     }
@@ -80,6 +81,7 @@ class AuthService {
 
       return await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
+      // ignore: avoid_print
       print("Error detail: $e");
       rethrow;
     }

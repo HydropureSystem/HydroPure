@@ -28,7 +28,8 @@ class _RegisterViewState extends State<RegisterView> {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(.12),
+                    // ignore: deprecated_member_use
+                    color: Colors.black.withOpacity(0.12),
                     blurRadius: 16,
                     offset: const Offset(0, 6),
                   ),
@@ -87,6 +88,7 @@ class _RegisterViewState extends State<RegisterView> {
                           Text(
                             'Start your journey toward smart, automated farming today.',
                             style: TextStyle(
+                              // ignore: deprecated_member_use
                               color: Colors.black.withOpacity(0.6),
                               fontWeight: FontWeight.w500,
                               fontSize: 18,

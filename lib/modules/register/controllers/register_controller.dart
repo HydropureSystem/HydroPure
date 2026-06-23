@@ -60,6 +60,7 @@ class RegisterController extends GetxController {
       // isLoading.value = true;
 
       /// REGISTER FIREBASE
+      // ignore: unused_local_variable
       final userCredential = await authService.register(
         username: fullName,
         email: email,

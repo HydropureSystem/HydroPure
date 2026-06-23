@@ -57,8 +57,7 @@ class PestDetectionController extends GetxController {
   }
 
   final image = await cameraController!.takePicture();
-
-  print(image.path);
+  (image.path); //perubahan
 
   /// simulasi processing AI
   await Future.delayed(

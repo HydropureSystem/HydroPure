@@ -23,7 +23,7 @@ class AiChatController extends GetxController {
 
   /// GANTI DENGAN BACKEND KAMU
   final String baseUrl =
-      "http://127.0.0.1:5000/chat";
+      "http://192.168.50.106/chat";
 
   /// SEND MESSAGE
   Future<void> sendMessage() async {

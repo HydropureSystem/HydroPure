@@ -226,7 +226,7 @@ class AlertView extends GetView<AlertController> {
                         onChanged: (value) {
                           controller.criticalAlert.value = value;
                         },
-                        activeColor: const Color(0xFF0B5D3B),
+                        activeThumbColor: const Color(0xFF0B5D3B),
                         title: const Text("Critical System Alerts"),
                         subtitle: const Text(
                           "Pump failure, leak detection, and power loss.",
@@ -240,7 +240,7 @@ class AlertView extends GetView<AlertController> {
                         onChanged: (value) {
                           controller.maintenanceReminder.value = value;
                         },
-                        activeColor: const Color(0xFF0B5D3B),
+                        activeThumbColor: const Color(0xFF0B5D3B),
                         title: const Text("Maintenance Reminders"),
                         subtitle: const Text(
                           "Nutrient cycles, pH balancing, and cleaning.",
@@ -254,7 +254,7 @@ class AlertView extends GetView<AlertController> {
                         onChanged: (value) {
                           controller.marketingNews.value = value;
                         },
-                        activeColor: const Color(0xFF0B5D3B),
+                        activeThumbColor: const Color(0xFF0B5D3B),
                         title: const Text("Marketing & News"),
                         subtitle: const Text(
                           "Community updates and market trends.",

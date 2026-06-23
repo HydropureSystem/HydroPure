@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:hydropure/app/routes/app_pages.dart';
+
 import 'package:hydropure/app/theme/app_colors.dart';
 import 'package:hydropure/widgets/bottom_nav.dart';
 import 'package:hydropure/widgets/profile_button.dart';

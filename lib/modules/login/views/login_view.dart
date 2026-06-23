@@ -1,10 +1,10 @@
-import 'dart:async';
+
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hydropure/app/routes/app_routes.dart';
 import 'package:hydropure/app/theme/app_colors.dart';
-import 'package:hydropure/modules/login/views/login_view.dart' as controller;
+
 import '../controllers/login_controller.dart';
 
 class LoginView extends StatefulWidget {
@@ -33,6 +33,7 @@ class _LoginViewState extends State<LoginView> {
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: [
                   BoxShadow(
+                    // ignore: deprecated_member_use
                     color: Colors.black.withOpacity(.12),
                     blurRadius: 16,
                     offset: const Offset(0, 6),
@@ -106,6 +107,7 @@ class _LoginViewState extends State<LoginView> {
                         Text(
                           'Access your farm\'s health and automation data.',
                           style: TextStyle(
+                            // ignore: deprecated_member_use
                             color: Colors.black.withOpacity(0.6),
                             fontWeight: FontWeight.w500,
                             fontSize: 18,

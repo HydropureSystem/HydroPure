@@ -37,6 +37,7 @@ class PestDetectionView extends GetView<PestDetectionController> {
           ),
 
           /// DARK OVERLAY
+          // ignore: deprecated_member_use
           Container(color: Colors.black.withOpacity(0.25)),
 
           /// CONTENT
