@@ -6,12 +6,10 @@ import '../../../app/theme/app_colors.dart';
 import '../controllers/ai_chat_controller.dart';
 
 class ChatInput extends GetView<AiChatController> {
-
   const ChatInput({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       padding: const EdgeInsets.all(14),
 
@@ -20,21 +18,21 @@ class ChatInput extends GetView<AiChatController> {
         borderRadius: BorderRadius.circular(28),
 
         boxShadow: [
+<<<<<<< HEAD
           BoxShadow(
             blurRadius: 12,
             // ignore: deprecated_member_use
             color: Colors.black.withOpacity(0.08),
           )
+=======
+          BoxShadow(blurRadius: 12, color: Colors.black.withOpacity(0.08)),
+>>>>>>> 658ed44446c28a67422f8368e88726430c14c417
         ],
       ),
 
       child: Row(
         children: [
-
-          const Icon(
-            Icons.attach_file,
-            size: 30,
-          ),
+          const Icon(Icons.attach_file, size: 30),
 
           const SizedBox(width: 14),
 
@@ -45,12 +43,9 @@ class ChatInput extends GetView<AiChatController> {
               decoration: InputDecoration(
                 border: InputBorder.none,
 
-                hintText:
-                    "Ask HydroPure AI about your crops",
+                hintText: "Ask HydroPure AI about your crops",
 
-                hintStyle: GoogleFonts.poppins(
-                  color: Colors.grey,
-                ),
+                hintStyle: GoogleFonts.poppins(color: Colors.grey),
               ),
             ),
           ),
@@ -64,16 +59,12 @@ class ChatInput extends GetView<AiChatController> {
 
               decoration: BoxDecoration(
                 color: AppColors.primary,
-                borderRadius:
-                    BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(18),
               ),
 
-              child: const Icon(
-                Icons.send,
-                color: Colors.white,
-              ),
+              child: const Icon(Icons.send, color: Colors.white),
             ),
-          )
+          ),
         ],
       ),
     );

@@ -21,7 +21,6 @@ class AuthService {
     required String password,
   }) async {
     final credential = await _auth.createUserWithEmailAndPassword(
-      username : username,
       email: email,
       password: password,
     );
@@ -35,7 +34,7 @@ class AuthService {
       'name': username,
       'email': email,
       'role': 'Farmer',
-      'status': 'Active',
+      'status': 'Inactive',
       'createdAt': FieldValue.serverTimestamp(),
     });
     return credential;

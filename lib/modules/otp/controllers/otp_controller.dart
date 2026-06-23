@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hydropure/app/services/api_service.dart';
@@ -36,10 +37,15 @@ class OtpController extends GetxController {
       return;
     }
 
+    final uid = FirebaseAuth.instance.currentUser!.uid;
     try {
       isLoading.value = true;
 
-      final success = await apiService.verifyOtp(email: email.value, otp: otp);
+      final success = await apiService.verifyOtp(
+        email: email.value,
+        otp: otp,
+        uid: uid,
+      );
 
       if (success) {
         Get.defaultDialog(

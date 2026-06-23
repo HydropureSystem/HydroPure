@@ -61,16 +61,17 @@ class LoginController extends GetxController {
       /// LOGIN FIREBASE
       await authService.login(email: email, password: password);
 
-      final doc = await _firestore.collection('otp_codes').doc(email).get();
+      final uid = FirebaseAuth.instance.currentUser!.uid;
 
-      final verified = doc['verified'] ?? false;
+      final doc = await _firestore.collection('users').doc(uid).get();
 
       /// CHECK VERIFIED
-      if (!verified) {
+      if (doc['status'] != "Active") {
         Get.defaultDialog(
-          title: "Email Belum Diverifikasi",
+          title: "User Belum active",
 
-          middleText: "Silakan verifikasi OTP terlebih dahulu.",
+          middleText:
+              "Silakan verifikasi OTP terlebih dahulu. atau hubungi admin",
 
           textConfirm: "OK",
 

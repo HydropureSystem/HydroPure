@@ -21,13 +21,17 @@ class ApiService {
   }
 
   /// VERIFY OTP
-  Future<bool> verifyOtp({required String email, required String otp}) async {
+  Future<bool> verifyOtp({
+    required String email,
+    required String otp,
+    required String uid,
+  }) async {
     final response = await http.post(
       Uri.parse("$baseUrl/verify-otp"),
 
       headers: {"Content-Type": "application/json"},
 
-      body: jsonEncode({"email": email, "otp": otp}),
+      body: jsonEncode({"email": email, "otp": otp, "uid": uid}),
     );
 
     return response.statusCode == 200;
