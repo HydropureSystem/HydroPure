@@ -341,17 +341,8 @@ class _RegisterViewState extends State<RegisterView> {
   Widget _buildTOC() {
     return Row(
       children: [
-        Checkbox(
-          activeColor: AppColors.primary,
-          value: agree,
-          onChanged: (value) {
-            setState(() {
-              agree = value!;
-            });
-          },
-        ),
-        SizedBox(
-          width: 275,
+        Checkbox(value: true, onChanged: (value) {}),
+        Expanded(
           child: RichText(
             text: const TextSpan(
               children: [

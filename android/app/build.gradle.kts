@@ -19,8 +19,8 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "id.ac.hydropure"
-    compileSdk = 34
+    namespace = "com.example.hydropure"
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     signingConfigs {
@@ -42,9 +42,9 @@ android {
     }
 
     defaultConfig {
-        applicationId = "id.ac.hydropure"
+        applicationId = "com.example.hydropure"
         minSdk = flutter.minSdkVersion
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0.0"
     }
@@ -52,8 +52,8 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("release")
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }

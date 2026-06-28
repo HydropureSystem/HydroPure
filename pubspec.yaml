@@ -45,6 +45,7 @@ dependencies:
     cloud_firestore: ^5.0.1
     firebase_storage: ^12.0.1
     firebase_messaging: ^15.0.1
+    firebase_database: ^11.0.0
 
     get_storage: ^2.1.1
     google_sign_in: ^6.2.1
@@ -55,7 +56,6 @@ dependencies:
 dev_dependencies:
     flutter_test:
         sdk: flutter
-
     # The "flutter_lints" package below contains a set of recommended lints to
     # encourage good coding practices. The lint set provided by the package is
     # activated in the `analysis_options.yaml` file located at the root of your
@@ -65,13 +65,13 @@ dev_dependencies:
     flutter_launcher_icons: ^0.14.0
 
 flutter_launcher_icons:
-      android: "launcher_icon"
-      ios: true
-      image_path: "assets/images/icon.png"
-      min_sdk_android: 21
-      adaptive_icon_background: "#FFFFFF"
-      adaptive_icon_foreground: "assets/images/icon.png"
-      
+    android: "launcher_icon"
+    ios: true
+    image_path: "assets/images/icon.png"
+    min_sdk_android: 21
+    adaptive_icon_background: "#FFFFFF"
+    adaptive_icon_foreground: "assets/images/icon.png"
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -86,22 +86,22 @@ flutter:
     # assets:
     #     - resources/fonts/
     # flutter:
-      uses-material-design: true
+    uses-material-design: true
 
-      fonts:
+    fonts:
         - family: lexend
           fonts:
-            - asset: resources/fonts/lexend/Lexend-ExtraLight.ttf
-              weight: 200
-            - asset: resources/fonts/lexend/Lexend-Light.ttf
-              weight: 300
-            - asset: resources/fonts/lexend/Lexend-Regular.ttf
-              weight: 400
-            - asset: resources/fonts/lexend/Lexend-Medium.ttf
-              weight: 500
-            - asset: resources/fonts/lexend/Lexend-SemiBold.ttf
-              weight: 600
-            - asset: resources/fonts/lexend/Lexend-Bold.ttf
-              weight: 700
-            - asset: resources/fonts/lexend/Lexend-ExtraBold.ttf
-              weight: 800
+              - asset: resources/fonts/lexend/Lexend-ExtraLight.ttf
+                weight: 200
+              - asset: resources/fonts/lexend/Lexend-Light.ttf
+                weight: 300
+              - asset: resources/fonts/lexend/Lexend-Regular.ttf
+                weight: 400
+              - asset: resources/fonts/lexend/Lexend-Medium.ttf
+                weight: 500
+              - asset: resources/fonts/lexend/Lexend-SemiBold.ttf
+                weight: 600
+              - asset: resources/fonts/lexend/Lexend-Bold.ttf
+                weight: 700
+              - asset: resources/fonts/lexend/Lexend-ExtraBold.ttf
+                weight: 800
