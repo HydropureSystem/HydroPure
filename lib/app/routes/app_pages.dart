@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:hydropure/modules/login/bindings/login_binding.dart';
 import 'package:hydropure/modules/login/views/login_view.dart';
+import 'package:hydropure/modules/nutrition_stats/bindings/nutrition_binding.dart';
+import 'package:hydropure/modules/nutrition_stats/views/nutrition_view.dart';
 import 'package:hydropure/modules/register/bindings/register_binding.dart';
 import 'package:hydropure/modules/register/views/register_view.dart';
 
@@ -94,6 +96,11 @@ class AppPages {
       name: Routes.PLANTS,
       page: () => const PlantsView(),
       binding: PlantsBinding(),
+    ),
+    GetPage(
+      name: Routes.NUTRITIONS,
+      page: () => const NutritionView(),
+      binding: NutritionBinding(),
     ),
   ];
 }

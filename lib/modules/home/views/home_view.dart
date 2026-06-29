@@ -176,7 +176,7 @@ class HomeView extends GetView<HomeController> {
                       ),
                       Expanded(
                         child: GestureDetector(
-                          onTap: () => Get.toNamed(Routes.MARKET_PRICE),
+                          onTap: () => Get.toNamed(Routes.NUTRITIONS),
                           child: Container(
                             height: 100,
                             decoration: BoxDecoration(
