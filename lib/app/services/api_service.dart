@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl =
-      "http://127.0.0.1:2000"; // Ganti dengan URL backend Anda
-  //"http://10.0.2.2:8000"; // Gunakan IP ini untuk emulator Android
+  static const String baseUrl = "http://192.168.110.250:8000";
+  //     "http://127.0.0.1:2000"; // Ganti dengan URL backend Anda
+  // "http://10.0.2.2:8000"; // Gunakan IP ini untuk emulator Android
 
   /// SEND OTP
   Future<bool> sendOtp({required String email}) async {
