@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,33 +13,17 @@ class PestDetectionView extends GetView<PestDetectionController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const BottomNav(
-  currentIndex: 1,
-),
+      bottomNavigationBar: const BottomNav(currentIndex: 1),
       body: Stack(
         children: [
-          /// BACKGROUND IMAGE
-          SizedBox(
-            width: double.infinity,
-            height: double.infinity,
-            child: Obx(() {
-              if (!controller.isCameraInitialized.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              return SizedBox(
-                width: double.infinity,
-                height: double.infinity,
-                child: CameraPreview(controller.cameraController!),
-              );
-            }),
-          ),
+          /// BACKGROUND IMAGE (CAMERA PREVIEW)
+          positionalBackgroundCamera(),
 
           /// DARK OVERLAY
           // ignore: deprecated_member_use
           Container(color: Colors.black.withOpacity(0.25)),
 
-          /// CONTENT
+          /// MAIN CONTENT UI
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -54,7 +37,6 @@ class PestDetectionView extends GetView<PestDetectionController> {
                         icon: Icons.arrow_back_ios_new,
                         onTap: () => Get.back(),
                       ),
-
                       Column(
                         children: [
                           Text(
@@ -65,44 +47,15 @@ class PestDetectionView extends GetView<PestDetectionController> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-
                           const SizedBox(height: 4),
-
                           Row(
                             children: [
-                              GestureDetector(
-                                          onTap: () {
-                                            controller.takePicture();
-                                          },
-                                          child: Container(
-                                            width: 95,
-                                            height: 95,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                color: Colors.white70,
-                                                width: 6,
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: Container(
-                                                width: 72,
-                                                height: 72,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(
-                                                    color: AppColors.primary,
-                                                    width: 3,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-
+                              const Icon(
+                                Icons.lens,
+                                color: Colors.greenAccent,
+                                size: 12,
+                              ),
                               const SizedBox(width: 8),
-
                               Text(
                                 "AI Scanning Active",
                                 style: GoogleFonts.poppins(
@@ -114,7 +67,6 @@ class PestDetectionView extends GetView<PestDetectionController> {
                           ),
                         ],
                       ),
-
                       _circleButton(
                         icon: Icons.flash_on_outlined,
                         onTap: () {},
@@ -142,19 +94,16 @@ class PestDetectionView extends GetView<PestDetectionController> {
 
                       /// CORNERS
                       Positioned(top: 0, left: 0, child: _corner()),
-
                       Positioned(
                         top: 0,
                         right: 0,
                         child: _corner(isRight: true),
                       ),
-
                       Positioned(
                         bottom: 0,
                         left: 0,
                         child: _corner(isBottom: true),
                       ),
-
                       Positioned(
                         bottom: 0,
                         right: 0,
@@ -216,23 +165,30 @@ class PestDetectionView extends GetView<PestDetectionController> {
                     children: [
                       _bottomCircle(Icons.photo_library_outlined),
 
-                      Container(
-                        width: 95,
-                        height: 95,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white70, width: 6),
-                        ),
-                        child: Center(
-                          child: Container(
-                            width: 72,
-                            height: 72,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: AppColors.primary,
-                                width: 3,
+                      /// SNAP / TAKE PICTURE BUTTON
+                      GestureDetector(
+                        onTap: () {
+                          controller
+                              .takePicture(); // Hubungkan ke fungsi jepret & kirim API
+                        },
+                        child: Container(
+                          width: 95,
+                          height: 95,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white70, width: 6),
+                          ),
+                          child: Center(
+                            child: Container(
+                              width: 72,
+                              height: 72,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: AppColors.primary,
+                                  width: 3,
+                                ),
                               ),
                             ),
                           ),
@@ -243,9 +199,7 @@ class PestDetectionView extends GetView<PestDetectionController> {
                         onTap: () {
                           controller.switchCamera();
                         },
-                        child: _bottomCircle(
-                          Icons.flip_camera_ios,
-                        ),
+                        child: _bottomCircle(Icons.flip_camera_ios),
                       ),
                     ],
                   ),
@@ -255,8 +209,54 @@ class PestDetectionView extends GetView<PestDetectionController> {
               ),
             ),
           ),
+
+          /// LOADING OVERLAY (Mencegah double-tap & memberi feedback saat proses AI Flask)
+          Obx(() {
+            if (controller.isLoading.value) {
+              return Container(
+                color: Colors.black54,
+                width: double.infinity,
+                height: double.infinity,
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const CircularProgressIndicator(color: AppColors.primary),
+                      const SizedBox(height: 16),
+                      Text(
+                        "Processing with Local AI...",
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          }),
         ],
       ),
+    );
+  }
+
+  Widget positionalBackgroundCamera() {
+    return SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: Obx(() {
+        if (!controller.isCameraInitialized.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: CameraPreview(controller.cameraController!),
+        );
+      }),
     );
   }
 
@@ -266,7 +266,7 @@ class PestDetectionView extends GetView<PestDetectionController> {
       child: Container(
         width: 54,
         height: 54,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white24,
           shape: BoxShape.circle,
         ),
@@ -279,7 +279,10 @@ class PestDetectionView extends GetView<PestDetectionController> {
     return Container(
       width: 65,
       height: 65,
-      decoration: BoxDecoration(color: Colors.white24, shape: BoxShape.circle),
+      decoration: const BoxDecoration(
+        color: Colors.white24,
+        shape: BoxShape.circle,
+      ),
       child: Icon(icon, color: Colors.white, size: 32),
     );
   }
