@@ -21,7 +21,7 @@ class MarketPriceItem extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(title),
+            Expanded(child: Text(title)),
             Text(
               price,
               style: const TextStyle(
@@ -34,14 +34,15 @@ class MarketPriceItem extends StatelessWidget {
 
         const SizedBox(height: 10),
 
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: LinearProgressIndicator(
-            value: value,
-            minHeight: 12,
-            backgroundColor: Colors.grey.shade300,
-            valueColor: const AlwaysStoppedAnimation(
-              AppColors.primary,
+        SizedBox(
+          width: double.infinity,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: LinearProgressIndicator(
+              value: value,
+              minHeight: 12,
+              backgroundColor: Colors.grey.shade300,
+              valueColor: const AlwaysStoppedAnimation(AppColors.primary),
             ),
           ),
         ),

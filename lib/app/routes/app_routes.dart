@@ -13,4 +13,5 @@ abstract class Routes {
   static const SPLASH = '/splash';
   static const MARKET_PRICE = '/market-price';
   static const OTP = '/otp';
+  static const NUTRITIONS = '/nutritions';
 }
