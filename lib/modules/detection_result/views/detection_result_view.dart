@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'dart:io';
 import '../../../app/theme/app_colors.dart';
 import '../controllers/detection_result_controller.dart';
 import '../widgets/recommendation_card.dart';
@@ -54,8 +54,8 @@ class DetectionResultView extends GetView<DetectionResultController> {
                             topLeft: Radius.circular(34),
                             topRight: Radius.circular(34),
                           ),
-                          child: Image.asset(
-                            'assets/images/pest_bg.jpg', // Anda bisa ganti ke FileImage(File(path)) jika mengirim path gambar asli
+                          child: Image.file(
+                            File(controller.imagePath),
                             width: double.infinity,
                             height: 260,
                             fit: BoxFit.cover,

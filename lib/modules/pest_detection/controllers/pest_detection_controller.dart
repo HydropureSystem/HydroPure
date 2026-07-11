@@ -15,7 +15,7 @@ class PestDetectionController extends GetxController {
   RxBool isLoading = false.obs;
 
   // 2. TENTUKAN IP ADDRESS LOKAL LAPTOP ANDA (Ganti sesuai hasil ipconfig Anda)
-  final String baseUrl = "http://192.168.1.25:5000";
+  final String baseUrl = "http://192.168.1.6:5000";
 
   @override
   void onInit() {
@@ -46,55 +46,75 @@ class PestDetectionController extends GetxController {
 
   // 3. SELESAIKAN FUNGSI TAKE PICTURE UNTUK MENGIRIM KE BACKEND FLASK
   Future<void> takePicture() async {
-    if (cameraController == null ||
-        !cameraController!.value.isInitialized ||
-        isLoading.value) {
-      return;
-    }
 
-    try {
-      isLoading.value = true; // Aktifkan loading di UI
+  if (cameraController == null) return;
 
-      // Ambil foto secara lokal di HP
-      final image = await cameraController!.takePicture();
+  if (!cameraController!.value.isInitialized) return;
 
-      // Siapkan request Multipart ke Flask Endpoint /predict
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse('$baseUrl/predict'),
+  if (isLoading.value) return;
+
+  try {
+
+    isLoading.value = true;
+
+    final image =
+        await cameraController!.takePicture();
+
+    final request =
+        http.MultipartRequest(
+      "POST",
+      Uri.parse("$baseUrl/detect"),
+    );
+
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        "image",
+        image.path,
+      ),
+    );
+
+    final streamed =
+        await request.send();
+
+    final response =
+        await http.Response.fromStream(streamed);
+
+    if (response.statusCode == 200) {
+
+      final result =
+          jsonDecode(response.body);
+
+      Get.toNamed(
+        Routes.DETECTION_RESULT,
+        arguments: {
+          "imagePath": image.path,
+          "result": result,
+        },
       );
 
-      // Tambahkan file gambar ke dalam form-data dengan key 'file' (harus cocok dengan Flask)
-      request.files.add(await http.MultipartFile.fromPath('file', image.path));
+    } else {
 
-      // Kirim data ke server
-      var streamedResponse = await request.send();
-      var response = await http.Response.fromStream(streamedResponse);
-
-      if (response.statusCode == 200) {
-        // Dekode data JSON dari backend Flask
-        final Map<String, dynamic> responseData = jsonDecode(response.body);
-
-        // Pindah halaman sambil membawa data hasil prediksi AI dari Flask
-        Get.toNamed(
-          Routes.DETECTION_RESULT,
-          arguments: responseData, // Kirim hasil kesini!
-        );
-      } else {
-        Get.snackbar(
-          "Error Backend",
-          "Gagal memproses gambar (${response.statusCode})",
-        );
-      }
-    } catch (e) {
       Get.snackbar(
-        "Error Koneksi",
-        "Pastikan laptop dan HP satu Wi-Fi. Detail: $e",
+        "Error",
+        response.body,
       );
-    } finally {
-      isLoading.value = false; // Matikan loading
+
     }
+
+  } catch(e){
+
+      Get.snackbar(
+        "Error",
+        e.toString(),
+      );
+
+  } finally{
+
+      isLoading.value=false;
+
   }
+
+}
 
   Future<void> switchCamera() async {
     if (cameras.length < 2) return;
