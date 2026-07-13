@@ -147,8 +147,7 @@ class NutritionView extends GetView<NutritionController> {
     required List<HydroponicLog> logs,
     required double Function(HydroponicLog) valueMapper,
   }) {
-    late ZoomPanBehavior _zoomPanBehavior;
-    _zoomPanBehavior = ZoomPanBehavior(
+    final zoomPanBehavior = ZoomPanBehavior(
       enablePanning: true,
       enablePinching: true,
       zoomMode: ZoomMode.x,
@@ -165,7 +164,7 @@ class NutritionView extends GetView<NutritionController> {
         height: 250,
 
         child: SfCartesianChart(
-          zoomPanBehavior: _zoomPanBehavior,
+          zoomPanBehavior: zoomPanBehavior,
           title: ChartTitle(text: title),
 
           primaryXAxis: DateTimeAxis(

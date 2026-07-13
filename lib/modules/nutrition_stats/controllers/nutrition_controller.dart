@@ -1,15 +1,18 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:hydropure/app/services/notification_service.dart';
 import 'package:hydropure/models/iot_log_model.dart';
 
 class NutritionController extends GetxController {
-  final DatabaseReference _ref = FirebaseDatabase.instance.ref(
-    'hydroponic/logs',
-  );
+  final DatabaseReference _ref =
+      FirebaseDatabase.instance.ref('hydroponic/logs');
 
   final logs = <HydroponicLog>[].obs;
   final isLoading = true.obs;
+
+  StreamSubscription<DatabaseEvent>? _subscription;
 
   DateTime? _lastNotification;
 
@@ -28,47 +31,89 @@ class NutritionController extends GetxController {
     listenLogs();
   }
 
+  @override
+  void onClose() {
+    _subscription?.cancel();
+    super.onClose();
+  }
+
   void listenLogs() {
-    _ref.onValue.listen((event) {
-      final value = event.snapshot.value;
+    _subscription?.cancel();
 
-      if (value == null) {
-        logs.clear();
+    _subscription = _ref.onValue.listen(
+      (event) {
+        try {
+          final value = event.snapshot.value;
+
+          if (value == null) {
+            logs.clear();
+            isLoading.value = false;
+            return;
+          }
+
+          if (value is! Map) {
+            logs.clear();
+            isLoading.value = false;
+            return;
+          }
+
+          final List<HydroponicLog> temp = [];
+
+          value.forEach((key, item) {
+            try {
+              if (item is Map) {
+                temp.add(
+                  HydroponicLog.fromMap(
+                    Map<String, dynamic>.from(item),
+                  ),
+                );
+              }
+            } catch (e) {
+              print("Parse error: $e");
+            }
+          });
+
+          temp.sort(
+            (a, b) => a.timestamp.compareTo(b.timestamp),
+          );
+
+          logs.assignAll(temp);
+
+          if (temp.isNotEmpty) {
+            checkThreshold(temp.last);
+          }
+
+          isLoading.value = false;
+
+          print(
+            "Loaded ${logs.length} nutrition logs",
+          );
+        } catch (e) {
+          print("Firebase Listener Error: $e");
+          isLoading.value = false;
+        }
+      },
+      onError: (e) {
+        print("Firebase Stream Error: $e");
         isLoading.value = false;
-        return;
-      }
-
-      final Map<dynamic, dynamic> data = value as Map<dynamic, dynamic>;
-
-      final List<HydroponicLog> temp = [];
-
-      data.forEach((key, value) {
-        temp.add(HydroponicLog.fromMap(Map<String, dynamic>.from(value)));
-      });
-
-      temp.sort((a, b) => a.timestamp.compareTo(b.timestamp));
-
-      logs.value = temp;
-
-      if (temp.isNotEmpty) {
-        checkThreshold(temp.last);
-      }
-      isLoading.value = false;
-      print(logs);
-    });
+      },
+    );
   }
 
   void checkThreshold(HydroponicLog log) {
-    // Hindari spam notif setiap update
     if (_lastNotification != null &&
-        DateTime.now().difference(_lastNotification!).inMinutes < 5) {
+        DateTime.now()
+                .difference(_lastNotification!)
+                .inMinutes <
+            5) {
       return;
     }
 
     if (log.tds < minTds) {
       NotificationService.showNotification(
         title: "TDS Rendah",
-        body: "TDS saat ini ${log.tds.toStringAsFixed(0)} ppm",
+        body:
+            "TDS saat ini ${log.tds.toStringAsFixed(0)} ppm",
       );
 
       _lastNotification = DateTime.now();
@@ -78,7 +123,8 @@ class NutritionController extends GetxController {
     if (log.tds > maxTds) {
       NotificationService.showNotification(
         title: "TDS Tinggi",
-        body: "TDS saat ini ${log.tds.toStringAsFixed(0)} ppm",
+        body:
+            "TDS saat ini ${log.tds.toStringAsFixed(0)} ppm",
       );
 
       _lastNotification = DateTime.now();
@@ -88,7 +134,8 @@ class NutritionController extends GetxController {
     if (log.ph < minPh) {
       NotificationService.showNotification(
         title: "pH Terlalu Asam",
-        body: "pH saat ini ${log.ph.toStringAsFixed(2)}",
+        body:
+            "pH saat ini ${log.ph.toStringAsFixed(2)}",
       );
 
       _lastNotification = DateTime.now();
@@ -98,7 +145,8 @@ class NutritionController extends GetxController {
     if (log.ph > maxPh) {
       NotificationService.showNotification(
         title: "pH Terlalu Basa",
-        body: "pH saat ini ${log.ph.toStringAsFixed(2)}",
+        body:
+            "pH saat ini ${log.ph.toStringAsFixed(2)}",
       );
 
       _lastNotification = DateTime.now();
@@ -108,7 +156,8 @@ class NutritionController extends GetxController {
     if (log.temperature < minTemp) {
       NotificationService.showNotification(
         title: "Suhu Terlalu Rendah",
-        body: "${log.temperature.toStringAsFixed(1)} °C",
+        body:
+            "${log.temperature.toStringAsFixed(1)} °C",
       );
 
       _lastNotification = DateTime.now();
@@ -118,7 +167,8 @@ class NutritionController extends GetxController {
     if (log.temperature > maxTemp) {
       NotificationService.showNotification(
         title: "Suhu Terlalu Tinggi",
-        body: "${log.temperature.toStringAsFixed(1)} °C",
+        body:
+            "${log.temperature.toStringAsFixed(1)} °C",
       );
 
       _lastNotification = DateTime.now();
