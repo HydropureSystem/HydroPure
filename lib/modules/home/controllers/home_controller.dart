@@ -4,6 +4,8 @@ import 'package:hydropure/app/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:hydropure/models/market_items.dart';
+import 'package:hydropure/providers/market_provider.dart';
 
 class HomeController extends GetxController {
   // ignore: unused_field
@@ -30,6 +32,7 @@ class HomeController extends GetxController {
     super.onInit();
     getUserData();
     listenLatestRealtimeLog();
+    getMarketHome(); 
   }
 
   void getUserData() {
@@ -64,7 +67,6 @@ class HomeController extends GetxController {
         print('Realtime DB error: $error');
       },
     );
-
   }
 
   double _parseDouble(Object? value) {
@@ -77,6 +79,12 @@ class HomeController extends GetxController {
     return 0.0;
   }
 
+  final MarketProvider provider = MarketProvider();
+
+  RxList<MarketItem> topProducts = <MarketItem>[].obs;
+
+  RxString marketUpdate = ''.obs;
+
   // Import firebase core di bagian paling atas
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getMarketPrices() {
@@ -84,5 +92,17 @@ class HomeController extends GetxController {
       app: Firebase.app(), // Ambil app yang sudah di-initialize di main.dart
       databaseId: 'hydropure', // Pastikan ID ini sama dengan di Console
     ).collection('realtime_market').snapshots();
+  }
+
+  Future<void> getMarketHome() async {
+    final response = await provider.getMarketHome();
+
+    marketUpdate.value = response.data['last_update'];
+
+    topProducts.assignAll(
+      (response.data['data'] as List)
+          .map((e) => MarketItem.fromJson(e))
+          .toList(),
+    );
   }
 }

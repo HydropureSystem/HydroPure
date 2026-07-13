@@ -30,9 +30,6 @@ import '../../modules/splash/views/splash_view.dart';
 import '../../modules/otp/bindings/otp_binding.dart';
 import '../../modules/otp/views/otp_view.dart';
 
-import '../../modules/plants/bindings/plants_binding.dart';
-import '../../modules/plants/views/plants_view.dart';
-
 import 'app_routes.dart';
 
 class AppPages {
@@ -91,11 +88,6 @@ class AppPages {
       name: Routes.OTP,
       page: () => const OtpView(),
       binding: OtpBinding(),
-    ),
-    GetPage(
-      name: Routes.PLANTS,
-      page: () => const PlantsView(),
-      binding: PlantsBinding(),
     ),
     GetPage(
       name: Routes.NUTRITIONS,

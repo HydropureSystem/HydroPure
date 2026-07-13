@@ -1,39 +1,69 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = "http://192.168.110.250:8000";
-  //     "http://127.0.0.1:2000"; // Ganti dengan URL backend Anda
-  // "http://10.0.2.2:8000"; // Gunakan IP ini untuk emulator Android
+  static const String baseUrl = "http://192.168.1.3:2000";
 
-  /// SEND OTP
   Future<bool> sendOtp({required String email}) async {
-    final response = await http.post(
-      Uri.parse("$baseUrl/send-otp"),
+    try {
+      final response = await http
+          .post(
+            Uri.parse("$baseUrl/send-otp"),
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: jsonEncode({
+              "email": email,
+            }),
+          )
+          .timeout(const Duration(seconds: 15));
 
-      headers: {"Content-Type": "application/json"},
+      print("SEND OTP STATUS : ${response.statusCode}");
+      print("SEND OTP BODY   : ${response.body}");
 
-      body: jsonEncode({"email": email}),
-    );
-
-    return response.statusCode == 200;
+      return response.statusCode == 200;
+    } on SocketException {
+      throw Exception("Tidak dapat terhubung ke server.");
+    } on TimeoutException {
+      throw Exception("Server timeout.");
+    } catch (e) {
+      throw Exception("Send OTP Error : $e");
+    }
   }
 
-  /// VERIFY OTP
   Future<bool> verifyOtp({
     required String email,
     required String otp,
     required String uid,
   }) async {
-    final response = await http.post(
-      Uri.parse("$baseUrl/verify-otp"),
+    try {
+      final response = await http
+          .post(
+            Uri.parse("$baseUrl/verify-otp"),
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: jsonEncode({
+              "email": email,
+              "otp": otp,
+              "uid": uid,
+            }),
+          )
+          .timeout(const Duration(seconds: 15));
 
-      headers: {"Content-Type": "application/json"},
+      print("VERIFY STATUS : ${response.statusCode}");
+      print("VERIFY BODY   : ${response.body}");
 
-      body: jsonEncode({"email": email, "otp": otp, "uid": uid}),
-    );
-
-    return response.statusCode == 200;
+      return response.statusCode == 200;
+    } on SocketException {
+      throw Exception("Tidak dapat terhubung ke server.");
+    } on TimeoutException {
+      throw Exception("Server timeout.");
+    } catch (e) {
+      throw Exception("Verify OTP Error : $e");
+    }
   }
 }

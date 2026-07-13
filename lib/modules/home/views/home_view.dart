@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hydropure/widgets/plant_card.dart';
+import 'package:hydropure/widgets/market_price_card.dart';
 import 'package:hydropure/widgets/stats_card.dart';
 import '../../../app/routes/app_routes.dart';
 
 import '../../../../widgets/bottom_nav.dart';
-import '../../../../widgets/market_price_item.dart';
 
 import '../../../app/theme/app_colors.dart';
 import '../controllers/home_controller.dart';
 import '../../../widgets/profile_button.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -210,159 +208,120 @@ class HomeView extends GetView<HomeController> {
                 ],
               ),
               SizedBox(height: 30),
-
-              /// MY PLANTS
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "My Plants",
-                    style: GoogleFonts.poppins(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    "View All",
-                    style: GoogleFonts.poppins(color: AppColors.primary),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 20),
-
-              SizedBox(
-                height: 290,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: controller.plant.length,
-                  itemBuilder: (context, index) {
-                    final plant = controller.plant[index];
-
-                    return PlantCard(
-                      image: plant['image']!,
-                      title: plant['name']!,
-                      days: plant['days']!,
-                    );
-                  },
-                ),
-              ),
-              SizedBox(height: 30),
-
-              /// MARKET PRICE
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Market Prices",
-                    style: GoogleFonts.poppins(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () => Get.toNamed(Routes.MARKET_PRICE),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.secondary,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        "Live Trend",
-                        style: GoogleFonts.poppins(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 20),
-
               Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-
-                child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                  stream: controller.getMarketPrices(),
-                  builder: (context, snapshot) {
-                    /// LOADING
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Obx(() {
+                
+                    if (controller.topProducts.isEmpty) {
+                      return Center(
+                        child: Text(
+                          "No market data available",
+                          style: GoogleFonts.poppins(),
+                        ),
+                      );
                     }
-
-                    /// TIDAK ADA DATA
-                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                      return const Center(child: Text("Belum ada data harga"));
-                    }
-
-                    final docs = snapshot.data!.docs;
-
+                
                     return Column(
-                      children: docs.map((doc) {
-                        // ignore: unnecessary_cast
-                        final data = doc.data() as Map<String, dynamic>;
-
-                        /// NAMA SAYUR
-                        final String title = (data['nama'] ?? '-').toString();
-
-                        /// AMBIL HARGA
-                        /// contoh:
-                        /// "3.000" -> "3000"
-                        final String rawPriceStr = (data['harga'] ?? '0')
-                            .toString()
-                            .replaceAll('Rp', '')
-                            .replaceAll('.', '')
-                            .replaceAll(' ', '')
-                            .trim();
-
-                        /// STRING -> INT
-                        final int price = int.tryParse(rawPriceStr) ?? 0;
-
-                        /// MAX HARGA
-                        const int maxPrice = 100000;
-
-                        /// PROGRESS BAR
-                        double progress = price / maxPrice;
-
-                        /// LIMIT MAX 1.0
-                        if (progress > 1) {
-                          progress = 1;
-                        }
-
-                        /// LIMIT MIN 0
-                        if (progress < 0) {
-                          progress = 0;
-                        }
-
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 18),
-
-                          child: MarketPriceItem(
-                            /// NAMA
-                            title: title,
-
-                            /// FORMAT TAMPILAN HARGA
-                            price: "${data['harga']}",
-
-                            /// VALUE PROGRESS
-                            value: progress,
+                      children: [
+                
+                        /// LAST UPDATE
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 10,
                           ),
-                        );
-                      }).toList(),
-                    );
-                  },
+                          decoration: BoxDecoration(
+                            color: AppColors.background,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Row(
+                            children: [
+                Icon(
+                  Icons.update,
+                  color: AppColors.primary,
                 ),
-              ),
+                
+                const SizedBox(width: 10),
+                
+                Expanded(
+                  child: Text(
+                    "Last Update : ${controller.marketUpdate.value}",
+                    style: GoogleFonts.poppins(
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                            ],
+                          ),
+                        ),
+                
+                        const SizedBox(height: 20),
+                
+                        /// TOP 5 PRODUCTS
+                        ...controller.topProducts.map((item) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                bottom: 18,
+                            ),
+                            child: MarketPriceCard(
+                title: item.namaProduk,
+                price: item.hargaText,
+                value: item.progress,
+                            ),
+                          );
+                        }).toList(),
+                
+                        const SizedBox(height: 10),
+                
+                        /// BUTTON DETAIL
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                Get.toNamed(
+                  Routes.MARKET_PRICE,
+                );
+                            },
+                
+                            icon: const Icon(
+                Icons.analytics_outlined,
+                            ),
+                
+                            label: const Text(
+                "View Full Analytics",
+                            ),
+                
+                            style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(
+                  vertical: 15,
+                ),
+                
+                backgroundColor:
+                    AppColors.primary,
+                
+                foregroundColor:
+                    Colors.white,
+                
+                shape:
+                    RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(20),
+                ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
+                ),
             ],
           ),
-        ),
+        ),  
       ),
     );
   }

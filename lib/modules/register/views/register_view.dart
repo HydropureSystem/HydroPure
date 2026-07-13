@@ -13,7 +13,7 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   final RegisterController controller = Get.find<RegisterController>();
-
+  
   bool agree = false;
 
   @override

@@ -16,7 +16,7 @@ class AiChatController extends GetxController {
   var isLoading = false.obs;
 
   /// GANTI DENGAN BACKEND KAMU
-  final String baseUrl = "http://127.0.0.1:5000/chat";
+  final String baseUrl = "http://192.168.123.123:4000/chat";
 
   /// SEND MESSAGE
   Future<void> sendMessage() async {

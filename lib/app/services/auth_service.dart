@@ -58,11 +58,7 @@ class AuthService {
   }
 
   // Inisialisasi di level variabel class
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    clientId:
-        '90627798394-15i78ppj6im69asqf34vbh8f483goapn.apps.googleusercontent.com',
-    scopes: ['email', 'profile'],
-  );
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future<UserCredential> signInWithGoogle() async {
     try {
