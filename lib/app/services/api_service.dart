@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = "http://192.168.1.3:2000";
+  static const String baseUrl = "http://10.83.92.116:2000";
 
   Future<bool> sendOtp({required String email}) async {
     try {
@@ -52,7 +52,7 @@ class ApiService {
               "uid": uid,
             }),
           )
-          .timeout(const Duration(seconds: 15));
+          .timeout(const Duration(seconds: 60));
 
       print("VERIFY STATUS : ${response.statusCode}");
       print("VERIFY BODY   : ${response.body}");

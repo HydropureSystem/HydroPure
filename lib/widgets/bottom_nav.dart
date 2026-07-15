@@ -43,7 +43,7 @@ class BottomNav extends StatelessWidget {
             break;
 
           case 3:
-            Get.toNamed(Routes.ALERT);
+            Get.toNamed(Routes.SETTINGS);
             break;
         }
       },
@@ -66,8 +66,8 @@ class BottomNav extends StatelessWidget {
         ),
 
         BottomNavigationBarItem(
-          icon: Icon(Icons.notifications_none),
-          label: 'Alerts',
+          icon: Icon(Icons.settings),
+          label: 'Settings',
         ),
       ],
     );

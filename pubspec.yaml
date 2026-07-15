@@ -57,6 +57,7 @@ dependencies:
 
     image_picker: ^1.0.7 # Untuk mengambil gambar dari kamera/galeri
     dio: ^5.10.0
+    shared_preferences: ^2.5.5
 
 dev_dependencies:
     flutter_test:

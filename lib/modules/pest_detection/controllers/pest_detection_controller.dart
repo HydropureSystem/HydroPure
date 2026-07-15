@@ -15,7 +15,7 @@ class PestDetectionController extends GetxController {
   RxBool isLoading = false.obs;
 
   // 2. TENTUKAN IP ADDRESS LOKAL LAPTOP ANDA (Ganti sesuai hasil ipconfig Anda)
-  final String baseUrl = "http://192.168.1.6:5000";
+  final String baseUrl = "http://10.83.92.116:5000";
 
   @override
   void onInit() {

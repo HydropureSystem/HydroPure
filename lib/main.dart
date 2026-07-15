@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hydropure/app/services/notification_service.dart';
+import 'package:hydropure/app/theme/app_themes.dart';
 
 import 'firebase_options.dart';
 
@@ -19,7 +20,7 @@ void main() async {
     persistenceEnabled: false,
   );
 
-  await NotificationService.init();
+  // await NotificationService.init();
 
   GoogleFonts.config.allowRuntimeFetching = true;
 

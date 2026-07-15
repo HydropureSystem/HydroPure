@@ -85,6 +85,50 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90627798394:android:a8312ea75c1d54b83c52c3",
+        "android_client_info": {
+          "package_name": "com.hn.hydropure"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "90627798394-d0t2e17id752dpp1cffl05jjopv2fsua.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hn.hydropure",
+            "certificate_hash": "e3e89b2310a93b3391b1677aee40fcddeb7c0dd4"
+          }
+        },
+        {
+          "client_id": "90627798394-15i78ppj6im69asqf34vbh8f483goapn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnJCg-JYa6Db6neBlcU_j-edynLFWHAbM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "90627798394-15i78ppj6im69asqf34vbh8f483goapn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "90627798394-mpaoj2g16t4ff7pbt1u8ru02p0l07fs6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hydropure"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

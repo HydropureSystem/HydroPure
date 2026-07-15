@@ -6,13 +6,13 @@ class MarketProvider {
 
   Future<Response> getMarketHome() {
     return dio.get(
-      'http://192.168.1.3:1000/market/home',
+      'http://10.83.92.116:1000/market/home',
     );
   }
 
   Future<Response> getMarketTrend() {
     return dio.get(
-      'http://192.168.1.3:1000/market/trends',
+      'http://10.83.92.116:1000/market/trends',
     );
   }
 }

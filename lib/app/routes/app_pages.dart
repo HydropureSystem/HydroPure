@@ -18,8 +18,8 @@ import '../../modules/detection_result/views/detection_result_view.dart';
 import '../../modules/ai_chat/bindings/ai_chat_binding.dart';
 import '../../modules/ai_chat/views/ai_chat_view.dart';
 
-import '../../modules/alerts/bindings/alert_binding.dart';
-import '../../modules/alerts/views/alert_view.dart';
+import '../../modules/settings/bindings/settings_binding.dart';
+import '../../modules/settings/views/settings_view.dart';
 
 import '../../modules/market_price/bindings/market_price_binding.dart';
 import '../../modules/market_price/views/market_price_view.dart';
@@ -70,9 +70,9 @@ class AppPages {
       binding: AiChatBinding(),
     ),
     GetPage(
-      name: Routes.ALERT,
-      page: () => const AlertView(),
-      binding: AlertBinding(),
+      name: Routes.SETTINGS,
+      page: () => const SettingsView(),
+      binding: SettingsBinding(),
     ),
     GetPage(
       name: Routes.SPLASH,

@@ -1,4 +1,4 @@
-package com.example.hydropure
+package com.hn.hydropure
 
 import io.flutter.embedding.android.FlutterActivity
 
